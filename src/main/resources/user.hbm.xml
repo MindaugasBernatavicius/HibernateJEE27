@@ -1,0 +1,8 @@
+<hibernate-mapping>
+    <class name = "cf.mindaugas.User">
+        <id name = "id" type = "int">
+            <generator class="increment"/>
+        </id>
+        <property name = "name" type = "string" column="user_name_x" />
+    </class>
+</hibernate-mapping>
