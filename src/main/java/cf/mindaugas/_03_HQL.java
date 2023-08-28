@@ -36,7 +36,7 @@ public class _03_HQL {
         }
     }
 
-    public static void _01_HQLWGroupBy(){
+    public static void _01_NativeQueryNeededForGroupBy(){
         try(
             var hibernateUtil = new HibernateUtilAutoClose();
             var sessionFactory = hibernateUtil.getSessionFactory();
@@ -57,10 +57,10 @@ public class _03_HQL {
     public static void main(String[] args) throws InterruptedException {
         // _00_CreateData();
 
-        // NOTE:: because JDBC/HIB do not support group concat, you will wither need to
+        // NOTE:: because JDBC/HIB do not support group concat (since this is mysql specific (postgres uses string_agg())), you will wither need to
         // 1. Register a function by overriding the Dialect: https://stackoverflow.com/a/60199919/1964707 and https://stackoverflow.com/a/60484151/1964707
         // 2. Abandon HQL for native queries: https://learningprogramming.net/java/hibernate5/group-by-clause-in-native-query-in-hibernate-5/
         // 3. Use Criteria API
-        _01_HQLWGroupBy();
+        _01_NativeQueryNeededForGroupBy();
     }
 }

@@ -10,7 +10,7 @@ import java.util.Properties;
 class HibernateUtilAutoClose implements AutoCloseable {
     private static SessionFactory sessionFactory;
     public HibernateUtilAutoClose(){
-        if(sessionFactory == null){
+        if(sessionFactory == null){ // or you can check if sessionFactory.isClosed()
             try {
                 var configuration = new Configuration();
                 var settings = new Properties();
@@ -22,8 +22,22 @@ class HibernateUtilAutoClose implements AutoCloseable {
                 settings.put(Environment.HBM2DDL_AUTO, "validate");
                 settings.put(Environment.SHOW_SQL, "true");
                 configuration.setProperties(settings);
-                configuration.addAnnotatedClass(Customer.class);
-                configuration.addAnnotatedClass(Employee.class);
+
+                // configuration.addAnnotatedClass(Customer.class);
+                // configuration.addAnnotatedClass(Employee.class);
+                // configuration.addAnnotatedClass(Company.class);
+                // configuration.addAnnotatedClass(Contact.class); // no need to configure embeddable
+                // configuration.addAnnotatedClass(Book.class);
+                // configuration.addAnnotatedClass(BookType.class); // did not need to configure a "secondary entity"
+                // configuration.addAnnotatedClass(Movie.class);
+
+                // for example: 10
+                configuration.addAnnotatedClass(Student.class);
+                configuration.addAnnotatedClass(Address.class);
+
+                // for example: 11
+                // configuration.addAnnotatedClass(Person.class);
+                // configuration.addAnnotatedClass(PhoneNumber.class);
 
                 var serviceRegistry = new StandardServiceRegistryBuilder()
                         .applySettings(configuration.getProperties())
@@ -39,8 +53,13 @@ class HibernateUtilAutoClose implements AutoCloseable {
         return sessionFactory;
     }
 
-    public void close(){
+    public void close() {
         sessionFactory.close();
+        // session factory does not become null
+        // ... when it's closed, so if you want
+        // ... to reopen it in a loop you must
+        // ... nullify it explicitly
+        sessionFactory = null;
     }
 }
 
@@ -58,7 +77,7 @@ public class _02_CrudActionsOnSimpleEntities {
             // System.out.println(customer);
 
             // getAll()
-            var customers = session.createSelectionQuery("From Customer").list();
+            var customers = session.createSelectionQuery("From klientas").list();
             System.out.println(customers);
 
             // // getBySomeValue()

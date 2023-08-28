@@ -10,7 +10,7 @@ import org.hibernate.cfg.Environment;
 import java.util.Properties;
 
 @Getter @Setter @ToString @RequiredArgsConstructor @NoArgsConstructor(force = true)
-@Entity
+@Entity(name="klientas")
 @Table(name="el_customero")
 class Customer {
     @Id
